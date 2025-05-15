@@ -19,8 +19,15 @@ bool32 AudioDevice::Init()
     want.channels = AUDIO_CHANNELS;
     want.callback = AudioCallback;
 
+    int audioFlag = 0;
+    #ifdef SDL_AUDIO_ALLOW_SAMPLES_CHANGE
+    audioFlag = SDL_AUDIO_ALLOW_SAMPLES_CHANGE;
+    #else
+    audioFlag = SDL_AUDIO_ALLOW_CHANNELS_CHANGE;  // fallback to a supported flag
+    #endif
+
     audioState = false;
-    if ((device = SDL_OpenAudioDevice(nullptr, 0, &want, &deviceSpec, SDL_AUDIO_ALLOW_SAMPLES_CHANGE)) > 0) {
+    if ((device = SDL_OpenAudioDevice(nullptr, 0, &want, &deviceSpec, audioFlag)) > 0) {
         SDL_PauseAudioDevice(device, SDL_FALSE);
         audioState = true;
     }
