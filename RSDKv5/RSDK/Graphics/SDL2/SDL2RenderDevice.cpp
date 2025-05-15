@@ -38,7 +38,7 @@ bool RenderDevice::Init()
 
     videoSettings.windowWidth = ((float)SCREEN_YSIZE * h / w);
 
-#elif RETRO_PLATFORM == RETRO_SWITCH
+#elif RETRO_PLATFORM == RETRO_SWITCH || defined(__webos__)
     videoSettings.windowed     = false;
     videoSettings.windowWidth  = 1920;
     videoSettings.windowHeight = 1080;
@@ -58,7 +58,11 @@ bool RenderDevice::Init()
 
     if (!videoSettings.windowed) {
         SDL_RestoreWindow(window);
+#ifdef __webos__
+        SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+#else
         SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+#endif
         SDL_ShowCursor(SDL_FALSE);
     }
 
@@ -373,7 +377,11 @@ void RenderDevice::RefreshWindow()
         else {
             winRect.w = displayMode.w;
             winRect.h = displayMode.h;
+#ifdef __webos__
+            SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+#else
             SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+#endif
             SDL_ShowCursor(SDL_TRUE);
         }
 
@@ -698,7 +706,11 @@ void RenderDevice::ProcessEvent(SDL_Event event)
             switch (event.window.event) {
                 case SDL_WINDOWEVENT_MAXIMIZED: {
                     SDL_RestoreWindow(window);
+#ifdef __webos__
+                    SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+#else
                     SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+#endif
                     SDL_ShowCursor(SDL_FALSE);
                     videoSettings.windowed = false;
                     break;
