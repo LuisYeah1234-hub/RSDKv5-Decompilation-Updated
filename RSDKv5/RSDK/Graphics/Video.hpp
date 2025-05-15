@@ -7,6 +7,7 @@ namespace RSDK
 struct VideoManager {
     static FileInfo file;
 
+#ifndef __webos__
     static ogg_sync_state oy;
     static ogg_page og;
     static ogg_stream_state vo;
@@ -19,6 +20,7 @@ struct VideoManager {
 
     static th_pixel_fmt pixelFormat;
     static ogg_int64_t granulePos;
+#endif
     static bool32 initializing;
 };
 
