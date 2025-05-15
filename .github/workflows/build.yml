@@ -1,9 +1,6 @@
 name: Build RSDKv5
 
-on:
-  push:
-    branches:
-      - master
+on: workflow_dispatch
 
 env:
   GENERAL_FLAGS: "-DRETRO_DISABLE_PLUS=ON -DCMAKE_BUILD_TYPE=Release"
