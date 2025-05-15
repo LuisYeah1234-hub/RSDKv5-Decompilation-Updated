@@ -5,7 +5,7 @@
 #define LinkGameLogic RSDK::LinkGameLogic
 #else
 #define EngineInfo RSDK::EngineInfo
-#include <GameMain.h>
+#include <../Game/GameMain.h>
 #define LinkGameLogic LinkGameLogicDLL
 #endif
 
