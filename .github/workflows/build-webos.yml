@@ -1,0 +1,73 @@
+name: Build RSDKv5 webOS
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-webos:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 18
+
+    - name: Install dependencies
+      run: | 
+        sudo apt update -y && sudo apt-get install build-essential cmake libglew-dev libglfw3-dev libtheora-dev portaudio19-dev libc6-dev-armel-cross -y && npm install -g @webos-tools/cli
+        mkdir -p dependencies/webOS/SDL2
+        wget -qO - https://github.com/webosbrew/SDL-webOS/releases/download/release-2.30.0-webos.2/SDL2-2.30.0-webos.tar.gz | tar -C dependencies/webOS/SDL2 -zxvf -
+
+    - name: Prepare Game Source
+      run: |
+        git clone https://github.com/RSDKModding/Sonic-Mania-Decompilation temp-decomp
+        mv temp-decomp/SonicMania ./Game
+        rm -rf temp-decomp
+      
+    - name: Download webOS NDK
+      uses: robinraju/release-downloader@v1.9
+      with:
+        repository: "openlgtv/buildroot-nc4"
+        latest: true
+        fileName: "arm-webos-linux-gnueabi_sdk-buildroot.tar.gz"
+        out-file-path: "/tmp"
+
+    - name: Extract webOS NDK
+      shell: bash
+      working-directory: /tmp
+      run: |
+        tar xzf arm-webos-linux-gnueabi_sdk-buildroot.tar.gz
+        ./arm-webos-linux-gnueabi_sdk-buildroot/relocate-sdk.sh
+        
+    - name: Build
+      shell: bash
+      # Execute the build.
+      run: |
+        . /tmp/arm-webos-linux-gnueabi_sdk-buildroot/environment-setup
+        make PLATFORM=webOS CXX=arm-webos-linux-gnueabi-g++ CC=arm-webos-linux-gnueabi-gcc
+        mkdir -p bin/webOS/SDL2/lib
+        cp -t bin/webOS/SDL2/lib -vf $STAGING_DIR/usr/lib/libstdc++.so.6
+        cp -t bin/webOS/SDL2/lib -vf dependencies/webOS/SDL2/lib/libSDL2-2.0.so.0
+        
+    - name: Bundle an IPK
+      shell: bash
+      run: |
+        OUTPUT_FILE=bin/webOS/SDL2/gamecontrollerdb.txt sh webos/gen_gamecontrollerdb.sh
+        cp -u webos/icon.png bin/webOS/SDL2
+        cp -u webos/splash.png bin/webOS/SDL2
+        cp -u webos/appinfo.json bin/webOS/SDL2
+        ares-package bin/webOS/SDL2
+        PATH=/bin:/usr/bin python3 webos/gen_manifest.py -a bin/webOS/SDL2/appinfo.json -p *.ipk -o webosbrew.manifest.json
+
+    - name: Upload Artifacts (webOS)
+      id: upload_artifacts_webos
+      uses: actions/upload-artifact@v4
+      with:
+        name: webOS-artifacts
+        path: |
+          *.ipk
+          webosbrew.manifest.json
