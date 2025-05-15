@@ -1,0 +1,11 @@
+{
+  "id": "com.github.rubberduckycooly.sonic-mania-decompilation",
+  "version": "1.0.0",
+  "vendor": "LuisYeah1234-hub",
+  "type": "native",
+  "main": "RSDKv5U",
+  "title": "Sonic Mania",
+  "icon": "icon.png",
+  "splashBackground": "splash.png",
+  "appDescription": "Sonic Mania port for webOS"
+}
