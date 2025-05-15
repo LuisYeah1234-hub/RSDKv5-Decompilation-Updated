@@ -91,6 +91,7 @@ enum GameRegions {
 #define RETRO_iOS     (6)
 #define RETRO_ANDROID (7)
 #define RETRO_UWP     (8)
+#define RETRO_WEBOS   (9)
 
 // ============================
 // PLATFORMS (used mostly in legacy but could come in handy here)
@@ -141,6 +142,9 @@ enum GameRegions {
 #define RETRO_DEVICETYPE (RETRO_STANDARD)
 #elif defined __linux__
 #define RETRO_PLATFORM   (RETRO_LINUX)
+#define RETRO_DEVICETYPE (RETRO_STANDARD)
+#elif defined __webos__
+#define RETRO_PLATFORM (RETRO_WEBOS)
 #define RETRO_DEVICETYPE (RETRO_STANDARD)
 #else
 #define RETRO_PLATFORM   (RETRO_WIN)
@@ -240,7 +244,7 @@ enum GameRegions {
 
 // Enables the use of the mod loader
 #ifndef RETRO_USE_MOD_LOADER
-#define RETRO_USE_MOD_LOADER (!RETRO_USE_ORIGINAL_CODE && 1)
+//#define RETRO_USE_MOD_LOADER (!RETRO_USE_ORIGINAL_CODE && 1)
 #endif
 
 // Defines the version of the mod loader, this should be changed ONLY if the ModFunctionTable is updated in any way
@@ -401,7 +405,7 @@ enum GameRegions {
 #error RSDK_USE_OGL must be defined.
 #endif
 
-#elif RETRO_PLATFORM == RETRO_OSX || RETRO_PLATFORM == RETRO_iOS
+#elif RETRO_PLATFORM == RETRO_OSX || RETRO_PLATFORM == RETRO_iOS || RETRO_PLATFORM == RETRO_WEBOS
 
 #undef RETRO_RENDERDEVICE_SDL2
 #define RETRO_RENDERDEVICE_SDL2 (1)
@@ -534,7 +538,9 @@ extern "C" {
 #endif
 #endif
 
+#ifndef __webos__
 #include <theora/theoradec.h>
+#endif
 
 // ============================
 // ENGINE INCLUDES
