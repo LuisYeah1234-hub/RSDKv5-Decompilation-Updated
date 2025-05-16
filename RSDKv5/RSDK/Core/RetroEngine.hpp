@@ -244,7 +244,7 @@ enum GameRegions {
 
 // Enables the use of the mod loader
 #ifndef RETRO_USE_MOD_LOADER
-//#define RETRO_USE_MOD_LOADER (!RETRO_USE_ORIGINAL_CODE && 1)
+#define RETRO_USE_MOD_LOADER (!RETRO_USE_ORIGINAL_CODE && 1)
 #endif
 
 // Defines the version of the mod loader, this should be changed ONLY if the ModFunctionTable is updated in any way
