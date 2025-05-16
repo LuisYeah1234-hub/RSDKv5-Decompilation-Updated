@@ -91,7 +91,6 @@ enum GameRegions {
 #define RETRO_iOS     (6)
 #define RETRO_ANDROID (7)
 #define RETRO_UWP     (8)
-#define RETRO_WEBOS   (9)
 
 // ============================
 // PLATFORMS (used mostly in legacy but could come in handy here)
@@ -140,11 +139,8 @@ enum GameRegions {
 #elif defined __SWITCH__
 #define RETRO_PLATFORM   (RETRO_SWITCH)
 #define RETRO_DEVICETYPE (RETRO_STANDARD)
-#elif defined __linux__
+#elif defined __linux__ || defined __webos__
 #define RETRO_PLATFORM   (RETRO_LINUX)
-#define RETRO_DEVICETYPE (RETRO_STANDARD)
-#elif defined __webos__
-#define RETRO_PLATFORM (RETRO_WEBOS)
 #define RETRO_DEVICETYPE (RETRO_STANDARD)
 #else
 #define RETRO_PLATFORM   (RETRO_WIN)
@@ -405,7 +401,7 @@ enum GameRegions {
 #error RSDK_USE_OGL must be defined.
 #endif
 
-#elif RETRO_PLATFORM == RETRO_OSX || RETRO_PLATFORM == RETRO_iOS || RETRO_PLATFORM == RETRO_WEBOS
+#elif RETRO_PLATFORM == RETRO_OSX || RETRO_PLATFORM == RETRO_iOS || defined(__webos__)
 
 #undef RETRO_RENDERDEVICE_SDL2
 #define RETRO_RENDERDEVICE_SDL2 (1)
