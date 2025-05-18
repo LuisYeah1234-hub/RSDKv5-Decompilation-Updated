@@ -344,6 +344,7 @@ int32 RSDK::RunRetroEngine(int32 argc, char *argv[])
 
 void RSDK::ProcessEngine()
 {
+    PrintLog(PRINT_NORMAL, "ProcessEngine has been called!.");
     switch (sceneInfo.state) {
         default: break;
 
@@ -445,7 +446,9 @@ void RSDK::ProcessEngine()
                 RefreshModFolders();
 #endif
             LoadSceneFolder();
+            PrintLog(PRINT_NORMAL, "Passed LoadSceneFolder..");
             LoadSceneAssets();
+            PrintLog(PRINT_NORMAL, "Passed LoadSceneAssets.");
             InitObjects();
 
 #if RETRO_REV02
@@ -581,6 +584,7 @@ void RSDK::ProcessEngine()
         }
 #endif
     }
+    PrintLog(PRINT_NORMAL, "ProcessEngine end..");
 }
 
 void RSDK::ParseArguments(int32 argc, char *argv[])
