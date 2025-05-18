@@ -271,6 +271,7 @@ int32 RSDK::RunRetroEngine(int32 argc, char *argv[])
 #else
                     ProcessEngine();
 #endif
+                    PrintLog(PRINT_NORMAL, "Passed The engine.version switch processengines functions.");
                 }
 
 #if RETRO_PLATFORM == RETRO_ANDROID
@@ -344,7 +345,7 @@ int32 RSDK::RunRetroEngine(int32 argc, char *argv[])
 
 void RSDK::ProcessEngine()
 {
-    PrintLog(PRINT_NORMAL, "ProcessEngine has been called!.");
+    PrintLog(PRINT_NORMAL, "ProcessEngine has been called!");
     switch (sceneInfo.state) {
         default: break;
 
@@ -358,8 +359,12 @@ void RSDK::ProcessEngine()
                     RefreshModFolders();
 #endif
                 LoadSceneFolder();
-                LoadSceneAssets();
-                InitObjects();
+		PrintLog(PRINT_NORMAL, "Passed LoadSceneFolder.");
+		LoadSceneAssets();
+		PrintLog(PRINT_NORMAL, "Passed LoadSceneAssets.");
+		InitObjects();
+		PrintLog(PRINT_NORMAL, "Passed InitObjects.");
+
 
 #if RETRO_REV02
 #if !RETRO_USE_ORIGINAL_CODE
@@ -446,10 +451,11 @@ void RSDK::ProcessEngine()
                 RefreshModFolders();
 #endif
             LoadSceneFolder();
-            PrintLog(PRINT_NORMAL, "Passed LoadSceneFolder..");
+            PrintLog(PRINT_NORMAL, "Passed LoadSceneFolder.");
             LoadSceneAssets();
             PrintLog(PRINT_NORMAL, "Passed LoadSceneAssets.");
             InitObjects();
+            PrintLog(PRINT_NORMAL, "Passed InitObjects.");
 
 #if RETRO_REV02
 #if !RETRO_USE_ORIGINAL_CODE
@@ -459,6 +465,7 @@ void RSDK::ProcessEngine()
             AddViewableVariable("Show Obj Info", &engine.showEntityInfo, VIEWVAR_UINT8, 0, 2);
 #endif
             SKU::userCore->StageLoad();
+            PrintLog(PRINT_NORMAL, "Passed usercore stageload.");
             for (int32 v = 0; v < DRAWGROUP_COUNT; ++v)
                 AddViewableVariable(drawGroupNames[v], &engine.drawGroupVisible[v], VIEWVAR_BOOL, false, true);
 #endif
@@ -584,7 +591,7 @@ void RSDK::ProcessEngine()
         }
 #endif
     }
-    PrintLog(PRINT_NORMAL, "ProcessEngine end..");
+    PrintLog(PRINT_NORMAL, "End of ProcessEngine.");
 }
 
 void RSDK::ParseArguments(int32 argc, char *argv[])
