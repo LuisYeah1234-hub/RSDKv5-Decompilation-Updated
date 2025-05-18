@@ -304,6 +304,8 @@ int32 RSDK::RunRetroEngine(int32 argc, char *argv[])
                 if (videoSettings.windowState != WINDOWSTATE_ACTIVE)
                     continue;
 
+		PrintLog(PRINT_NORMAL, "IF WINDOWSTATE IS NOT ACTIVE skip the loop ");
+
 #if !RETRO_USE_ORIGINAL_CODE
                 for (int32 t = 0; t < touchInfo.count; ++t) {
                     if (touchInfo.down[t]) {
@@ -322,6 +324,7 @@ int32 RSDK::RunRetroEngine(int32 argc, char *argv[])
                         }
                     }
                 }
+		PrintLog(PRINT_NORMAL, "if engine state isnt engine state devmenu and devmenu is enabled open the devmenu ");
 #endif
                 if (engine.inFocus == 1) {
                     // Uncomment this code to add the build number to dev menu
@@ -335,13 +338,17 @@ int32 RSDK::RunRetroEngine(int32 argc, char *argv[])
                     }
 
                     RenderDevice::CopyFrameBuffer();
+		    PrintLog(PRINT_NORMAL, "Passed Render device Copy frame buffer ");
                 }
             }
 
             if ((engine.focusState & 1) || engine.inFocus == 1)
                 RenderDevice::ProcessDimming();
 
+	    PrintLog(PRINT_NORMAL, "Passed Render Device Process dimming ");
+
             RenderDevice::FlipScreen();
+	    PrintLog(PRINT_NORMAL, "Passed Render Device Flip the screen ");
         }
     }
 
