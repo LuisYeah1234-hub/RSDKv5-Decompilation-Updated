@@ -108,21 +108,33 @@ int32 RSDK::RunRetroEngine(int32 argc, char *argv[])
     RenderDevice::InitFPSCap();
 
     while (RenderDevice::isRunning) {
+	PrintLog(PRINT_NORMAL, "Start of while isrunning");
         RenderDevice::ProcessEvents();
+	PrintLog(PRINT_NORMAL, "renderdevice processevents");
 
         if (!RenderDevice::isRunning)
             break;
 
+	PrintLog(PRINT_NORMAL, "if not running break");
+
         if (RenderDevice::CheckFPSCap()) {
             RenderDevice::UpdateFPSCap();
+	
+	PrintLog(PRINT_NORMAL, "FPS cap");
 
             AudioDevice::FrameInit();
+
+	PrintLog(PRINT_NORMAL, "audio frameinit");
 
 #if RETRO_REV02
             SKU::userCore->FrameInit();
 
+	   PrintLog(PRINT_NORMAL, "user core frame init");
+
             if (SKU::userCore->CheckEnginePause())
                 continue;
+
+	    PrintLog(PRINT_NORMAL, "check engine pause");
 
                 // Focus Checks
 #if !RETRO_USE_ORIGINAL_CODE
@@ -135,6 +147,8 @@ int32 RSDK::RunRetroEngine(int32 argc, char *argv[])
                 if (!(engine.focusState & 1)) {
                     engine.focusState = 1;
 
+		PrintLog(PRINT_NORMAL, "Focus checks");
+
 #if !RETRO_USE_ORIGINAL_CODE
                     for (int32 c = 0; c < CHANNEL_COUNT; ++c) {
                         engine.focusPausedChannel[c] = false;
@@ -143,8 +157,10 @@ int32 RSDK::RunRetroEngine(int32 argc, char *argv[])
                             engine.focusPausedChannel[c] = true;
                         }
                     }
+		    PrintLog(PRINT_NORMAL, "FocusPausedChannel");
 #else
                     PauseSound();
+		    PrintLog(PRINT_NORMAL, "PauseSound");
 #endif
                 }
             }
@@ -162,13 +178,12 @@ int32 RSDK::RunRetroEngine(int32 argc, char *argv[])
 #endif
             }
 #endif
+	    PrintLog(PRINT_NORMAL, "Resume Sound");
 
 	    // On webOS this will do nothing
             if (!engine.initialized || (engine.focusState & 1)) {
-#ifndef __webos__ 
                 if (videoSettings.windowState != WINDOWSTATE_ACTIVE)
                     continue;
-#endif
             }
             else {
                 if (!engine.hardPause) {
@@ -254,15 +269,20 @@ int32 RSDK::RunRetroEngine(int32 argc, char *argv[])
                         }
 #endif
                         RenderDevice::SetWindowTitle();
+			PrintLog(PRINT_NORMAL, "Set Window Title");
                         sceneInfo.state = ENGINESTATE_LOAD;
+			PrintLog(PRINT_NORMAL, "Engine state load");
                     }
 #endif
 
                     // update device states and other stuff
                     ProcessInputDevices();
+		    PrintLog(PRINT_NORMAL, "Process input devices");
 
                     if (engine.devMenu)
                         ProcessDebugCommands();
+
+		    PrintLog(PRINT_NORMAL, "Process debugcommands for dev menu");
 
 #if RETRO_REV0U
                     switch (engine.version) {
@@ -275,15 +295,14 @@ int32 RSDK::RunRetroEngine(int32 argc, char *argv[])
                     ProcessEngine();
 #endif
                 }
+		PrintLog(PRINT_NORMAL, "Passed engine.version Process Engines switch ");
 
 #if RETRO_PLATFORM == RETRO_ANDROID
                 HideLoadingIcon(); // best spot to do it
 #endif
-
-#ifndef __webos__ 			
+			
                 if (videoSettings.windowState != WINDOWSTATE_ACTIVE)
                     continue;
-#endif
 
 #if !RETRO_USE_ORIGINAL_CODE
                 for (int32 t = 0; t < touchInfo.count; ++t) {
