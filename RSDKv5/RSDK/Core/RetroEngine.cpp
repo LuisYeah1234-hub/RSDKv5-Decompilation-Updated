@@ -125,10 +125,11 @@ int32 RSDK::RunRetroEngine(int32 argc, char *argv[])
 #if RETRO_REV02
             SKU::userCore->FrameInit();
 
-            if (SKU::userCore->CheckEnginePause())
+            if (SKU::userCore->CheckEnginePause()) {
 		if (!printed) PrintLog(PRINT_NORMAL, "continue has been triggered by checkenginepause skipping this loop session..");
 		printed = true;
                 continue;
+	    }
 
                 // Focus Checks
 #if !RETRO_USE_ORIGINAL_CODE
@@ -170,10 +171,11 @@ int32 RSDK::RunRetroEngine(int32 argc, char *argv[])
 #endif
 
             if (!engine.initialized || (engine.focusState & 1)) {
-                if (videoSettings.windowState != WINDOWSTATE_ACTIVE)
+                if (videoSettings.windowState != WINDOWSTATE_ACTIVE) {
 		    if (!printed2) PrintLog(PRINT_NORMAL, "continue has been triggered by videosettings windowstate not windowstate active skipping this loop session..");
 		    printed2 = true;
                     continue;
+		}
             }
             else {
                 if (!engine.hardPause) {
@@ -285,10 +287,11 @@ int32 RSDK::RunRetroEngine(int32 argc, char *argv[])
                 HideLoadingIcon(); // best spot to do it
 #endif
 
-                if (videoSettings.windowState != WINDOWSTATE_ACTIVE)
+                if (videoSettings.windowState != WINDOWSTATE_ACTIVE) {
 		    if (!printed3) PrintLog(PRINT_NORMAL, "continue has been triggered by videosettings windowstate not windowstate active 2 skipping this loop session..");
 	            printed3 = true;
                     continue;
+		}
 
 #if !RETRO_USE_ORIGINAL_CODE
                 for (int32 t = 0; t < touchInfo.count; ++t) {
