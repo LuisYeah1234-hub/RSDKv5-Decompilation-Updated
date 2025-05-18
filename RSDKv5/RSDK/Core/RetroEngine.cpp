@@ -122,6 +122,7 @@ int32 RSDK::RunRetroEngine(int32 argc, char *argv[])
             SKU::userCore->FrameInit();
 
             if (SKU::userCore->CheckEnginePause())
+		PrintLog(PRINT_NORMAL, "continue has been triggered by checkenginepause skipping this loop session..);
                 continue;
 
                 // Focus Checks
@@ -165,6 +166,7 @@ int32 RSDK::RunRetroEngine(int32 argc, char *argv[])
 
             if (!engine.initialized || (engine.focusState & 1)) {
                 if (videoSettings.windowState != WINDOWSTATE_ACTIVE)
+		    PrintLog(PRINT_NORMAL, "continue has been triggered by videosettings windowstate not windowstate active skipping this loop session..);
                     continue;
             }
             else {
@@ -279,6 +281,7 @@ int32 RSDK::RunRetroEngine(int32 argc, char *argv[])
 #endif
 
                 if (videoSettings.windowState != WINDOWSTATE_ACTIVE)
+		    PrintLog(PRINT_NORMAL, "continue has been triggered by videosettings windowstate not windowstate active 2 skipping this loop session..);
                     continue;
 
 #if !RETRO_USE_ORIGINAL_CODE
