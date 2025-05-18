@@ -20,10 +20,6 @@ int32 *RSDK::globalVarsPtr = NULL;
 void (*RSDK::globalVarsInitCB)(void *globals) = NULL;
 #endif
 
-bool printed = false;
-bool printed2 = false;
-bool printed3 = false;
-
 RetroEngine RSDK::engine = RetroEngine();
 
 int32 RSDK::RunRetroEngine(int32 argc, char *argv[])
