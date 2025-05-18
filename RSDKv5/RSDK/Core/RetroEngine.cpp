@@ -20,6 +20,10 @@ int32 *RSDK::globalVarsPtr = NULL;
 void (*RSDK::globalVarsInitCB)(void *globals) = NULL;
 #endif
 
+bool printed = false;
+bool printed2 = false;
+bool printed3 = false;
+
 RetroEngine RSDK::engine = RetroEngine();
 
 int32 RSDK::RunRetroEngine(int32 argc, char *argv[])
@@ -122,7 +126,8 @@ int32 RSDK::RunRetroEngine(int32 argc, char *argv[])
             SKU::userCore->FrameInit();
 
             if (SKU::userCore->CheckEnginePause())
-		PrintLog(PRINT_NORMAL, "continue has been triggered by checkenginepause skipping this loop session..");
+		if (!printed) PrintLog(PRINT_NORMAL, "continue has been triggered by checkenginepause skipping this loop session..");
+		printed = true;
                 continue;
 
                 // Focus Checks
@@ -166,7 +171,8 @@ int32 RSDK::RunRetroEngine(int32 argc, char *argv[])
 
             if (!engine.initialized || (engine.focusState & 1)) {
                 if (videoSettings.windowState != WINDOWSTATE_ACTIVE)
-		    PrintLog(PRINT_NORMAL, "continue has been triggered by videosettings windowstate not windowstate active skipping this loop session..");
+		    if (!printed2) PrintLog(PRINT_NORMAL, "continue has been triggered by videosettings windowstate not windowstate active skipping this loop session..");
+		    printed2 = true;
                     continue;
             }
             else {
@@ -273,7 +279,6 @@ int32 RSDK::RunRetroEngine(int32 argc, char *argv[])
 #else
                     ProcessEngine();
 #endif
-                    PrintLog(PRINT_NORMAL, "Passed The engine.version switch processengines functions.");
                 }
 
 #if RETRO_PLATFORM == RETRO_ANDROID
@@ -281,7 +286,8 @@ int32 RSDK::RunRetroEngine(int32 argc, char *argv[])
 #endif
 
                 if (videoSettings.windowState != WINDOWSTATE_ACTIVE)
-		    PrintLog(PRINT_NORMAL, "continue has been triggered by videosettings windowstate not windowstate active 2 skipping this loop session..");
+		    if (!printed3) PrintLog(PRINT_NORMAL, "continue has been triggered by videosettings windowstate not windowstate active 2 skipping this loop session..");
+	            printed3 = true;
                     continue;
 
 #if !RETRO_USE_ORIGINAL_CODE
@@ -348,7 +354,6 @@ int32 RSDK::RunRetroEngine(int32 argc, char *argv[])
 
 void RSDK::ProcessEngine()
 {
-    PrintLog(PRINT_NORMAL, "ProcessEngine has been called!");
     switch (sceneInfo.state) {
         default: break;
 
@@ -362,11 +367,8 @@ void RSDK::ProcessEngine()
                     RefreshModFolders();
 #endif
                 LoadSceneFolder();
-		PrintLog(PRINT_NORMAL, "Passed LoadSceneFolder.");
 		LoadSceneAssets();
-		PrintLog(PRINT_NORMAL, "Passed LoadSceneAssets.");
 		InitObjects();
-		PrintLog(PRINT_NORMAL, "Passed InitObjects.");
 
 
 #if RETRO_REV02
@@ -454,11 +456,8 @@ void RSDK::ProcessEngine()
                 RefreshModFolders();
 #endif
             LoadSceneFolder();
-            PrintLog(PRINT_NORMAL, "Passed LoadSceneFolder.");
             LoadSceneAssets();
-            PrintLog(PRINT_NORMAL, "Passed LoadSceneAssets.");
             InitObjects();
-            PrintLog(PRINT_NORMAL, "Passed InitObjects.");
 
 #if RETRO_REV02
 #if !RETRO_USE_ORIGINAL_CODE
@@ -468,7 +467,6 @@ void RSDK::ProcessEngine()
             AddViewableVariable("Show Obj Info", &engine.showEntityInfo, VIEWVAR_UINT8, 0, 2);
 #endif
             SKU::userCore->StageLoad();
-            PrintLog(PRINT_NORMAL, "Passed usercore stageload.");
             for (int32 v = 0; v < DRAWGROUP_COUNT; ++v)
                 AddViewableVariable(drawGroupNames[v], &engine.drawGroupVisible[v], VIEWVAR_BOOL, false, true);
 #endif
@@ -594,7 +592,6 @@ void RSDK::ProcessEngine()
         }
 #endif
     }
-    PrintLog(PRINT_NORMAL, "End of ProcessEngine.");
 }
 
 void RSDK::ParseArguments(int32 argc, char *argv[])
