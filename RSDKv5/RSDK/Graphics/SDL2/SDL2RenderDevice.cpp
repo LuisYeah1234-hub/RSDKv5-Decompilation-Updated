@@ -103,8 +103,10 @@ void RenderDevice::FlipScreen()
 {
     if (windowRefreshDelay > 0) {
         windowRefreshDelay--;
-        if (!windowRefreshDelay)
+        if (!windowRefreshDelay) {
             UpdateGameWindow();
+            PrintLog(PRINT_NORMAL, "Passed update game window in flipscreen");
+        }
         return;
     }
 
@@ -361,13 +363,14 @@ void RenderDevice::RefreshWindow()
     }
 
     GetDisplays();
-    PrintLog(PRINT_NORMAL, "Passed GetDidplays);
+    PrintLog(PRINT_NORMAL, "Passed GetDidplays");
 
     SDL_Rect winRect;
     winRect.x = SDL_WINDOWPOS_CENTERED;
     winRect.y = SDL_WINDOWPOS_CENTERED;
     if (videoSettings.windowed || !videoSettings.exclusiveFS) {
         int32 currentWindowDisplay = SDL_GetWindowDisplayIndex(window);
+        PrintLog(PRINT_NORMAL, "Passed GetWindowDisplayIndex");
         SDL_DisplayMode displayMode;
         SDL_GetCurrentDisplayMode(currentWindowDisplay, &displayMode);
 PrintLog(PRINT_NORMAL, "Passed get current display mode");
@@ -399,15 +402,21 @@ PrintLog(PRINT_NORMAL, "Passed get current display mode");
         }
 
         SDL_SetWindowSize(window, winRect.w, winRect.h);
+        PrintLog(PRINT_NORMAL, "Passed Set Window Size");
         SDL_SetWindowPosition(window, winRect.x, winRect.y);
+        PrintLog(PRINT_NORMAL, "Passed Set Window Position");
     }
 
     SDL_ShowWindow(window);
+    PrintLog(PRINT_NORMAL, "Passed SDL Show Window");
 
     if (!InitGraphicsAPI() || !InitShaders())
         return;
 
+    PrintLog(PRINT_NORMAL, "Passed Init Graphics and Shaders");
+
     videoSettings.windowState = WINDOWSTATE_ACTIVE;
+    PrintLog(PRINT_NORMAL, "Passed Window State to Window State Active");
 }
 
 void RenderDevice::InitFPSCap()
