@@ -342,18 +342,26 @@ void RenderDevice::Release(bool32 isRefresh)
 
 void RenderDevice::RefreshWindow()
 {
+    PrintLog(PRINT_NORMAL, "RenderDevice RefreshWindows triggered");
     videoSettings.windowState = WINDOWSTATE_UNINITIALIZED;
+    PrintLog(PRINT_NORMAL, "set window state to unitialized");
 
     Release(true);
+    PrintLog(PRINT_NORMAL, "Release true");
 
     SDL_HideWindow(window);
+    PrintLog(PRINT_NORMAL, "Passed SDL hide window");
 
-    if (videoSettings.windowed && videoSettings.bordered)
+    if (videoSettings.windowed && videoSettings.bordered) {
         SDL_SetWindowBordered(window, SDL_TRUE);
-    else
+        PrintLog(PRINT_NORMAL, "Passed Set window bodered True");
+    } else {
         SDL_SetWindowBordered(window, SDL_FALSE);
+        PrintLog(PRINT_NORMAL, "Passed Set window bordered False");
+    }
 
     GetDisplays();
+    PrintLog(PRINT_NORMAL, "Passed GetDidplays);
 
     SDL_Rect winRect;
     winRect.x = SDL_WINDOWPOS_CENTERED;
@@ -362,6 +370,7 @@ void RenderDevice::RefreshWindow()
         int32 currentWindowDisplay = SDL_GetWindowDisplayIndex(window);
         SDL_DisplayMode displayMode;
         SDL_GetCurrentDisplayMode(currentWindowDisplay, &displayMode);
+PrintLog(PRINT_NORMAL, "Passed get current display mode");
 
         if (videoSettings.windowed) {
             if (videoSettings.windowWidth >= displayMode.w || videoSettings.windowHeight >= displayMode.h) {
@@ -372,7 +381,9 @@ void RenderDevice::RefreshWindow()
             winRect.w = videoSettings.windowWidth;
             winRect.h = videoSettings.windowHeight;
             SDL_SetWindowFullscreen(window, SDL_FALSE);
+            PrintLog(PRINT_NORMAL, "Passed Set window fullscreen false");
             SDL_ShowCursor(SDL_FALSE);
+            PrintLog(PRINT_NORMAL, "Passed SDL Show Cursor");
         }
         else {
             winRect.w = displayMode.w;
@@ -382,7 +393,9 @@ void RenderDevice::RefreshWindow()
 #else
             SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
 #endif
+            PrintLog(PRINT_NORMAL, "Passed set window fullscreen true");
             SDL_ShowCursor(SDL_TRUE);
+            PrintLog(PRINT_NORMAL, "Passed SDL Show Cursor true");
         }
 
         SDL_SetWindowSize(window, winRect.w, winRect.h);
