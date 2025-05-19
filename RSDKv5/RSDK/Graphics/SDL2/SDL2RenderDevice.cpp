@@ -115,7 +115,9 @@ void RenderDevice::FlipScreen()
     // Clear the screen. This is needed to keep the
     // pillarboxes in fullscreen from displaying garbage data.
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF);
+    PrintLog(PRINT_NORMAL, "Passed Set Render Draw color");
     SDL_RenderClear(renderer);
+    PrintLog(PRINT_NORMAL, "Passed Render clear");
 
 #if (SDL_COMPILEDVERSION >= SDL_VERSIONNUM(2, 0, 18))
     int32 startVert = 0;
@@ -130,6 +132,7 @@ void RenderDevice::FlipScreen()
             SDL_RenderGeometryRaw(renderer, imageTexture, &vertexBuffer[startVert].pos.x, sizeof(RenderVertex),
                                   (SDL_Color *)&vertexBuffer[startVert].color, sizeof(RenderVertex), &vertexBuffer[startVert].tex.x,
                                   sizeof(RenderVertex), 6, NULL, 0, 0);
+            PrintLog(PRINT_NORMAL, "Passed Render Geometry Raw at case 0 of screencount switch");
             break;
 
         case 1:
@@ -137,6 +140,7 @@ void RenderDevice::FlipScreen()
             SDL_RenderGeometryRaw(renderer, screenTexture[0], &vertexBuffer[startVert].pos.x, sizeof(RenderVertex),
                                   (SDL_Color *)&vertexBuffer[startVert].color, sizeof(RenderVertex), &vertexBuffer[startVert].tex.x,
                                   sizeof(RenderVertex), 6, NULL, 0, 0);
+            PrintLog(PRINT_NORMAL, "Passed Render Geometry Raw at case 1 of screencount switch");            
             break;
 
         case 2:
@@ -148,6 +152,7 @@ void RenderDevice::FlipScreen()
             SDL_RenderGeometryRaw(renderer, screenTexture[0], &vertexBuffer[startVert].pos.x, sizeof(RenderVertex),
                                   (SDL_Color *)&vertexBuffer[startVert].color, sizeof(RenderVertex), &vertexBuffer[startVert].tex.x,
                                   sizeof(RenderVertex), 6, NULL, 0, 0);
+            PrintLog(PRINT_NORMAL, "Passed Render Geometry Raw at case 2 of screencount switch");            
 
 #if RETRO_REV02
             startVert = startVertex_2P[1];
@@ -157,6 +162,7 @@ void RenderDevice::FlipScreen()
             SDL_RenderGeometryRaw(renderer, screenTexture[1], &vertexBuffer[startVert].pos.x, sizeof(RenderVertex),
                                   (SDL_Color *)&vertexBuffer[startVert].color, sizeof(RenderVertex), &vertexBuffer[startVert].tex.x,
                                   sizeof(RenderVertex), 6, NULL, 0, 0);
+            PrintLog(PRINT_NORMAL, "Passed second Render Geometry Raw at case 2 of screencount switch");            
             break;
 
 #if RETRO_REV02
@@ -165,16 +171,19 @@ void RenderDevice::FlipScreen()
             SDL_RenderGeometryRaw(renderer, screenTexture[0], &vertexBuffer[startVert].pos.x, sizeof(RenderVertex),
                                   (SDL_Color *)&vertexBuffer[startVert].color, sizeof(RenderVertex), &vertexBuffer[startVert].tex.x,
                                   sizeof(RenderVertex), 6, NULL, 0, 0);
+            PrintLog(PRINT_NORMAL, "Passed Render Geometry Raw at case 3 of screencount switch");            
 
             startVert = startVertex_3P[1];
             SDL_RenderGeometryRaw(renderer, screenTexture[1], &vertexBuffer[startVert].pos.x, sizeof(RenderVertex),
                                   (SDL_Color *)&vertexBuffer[startVert].color, sizeof(RenderVertex), &vertexBuffer[startVert].tex.x,
                                   sizeof(RenderVertex), 6, NULL, 0, 0);
+            PrintLog(PRINT_NORMAL, "Passed second Render Geometry Raw at case 3 of screencount switch");            
 
             startVert = startVertex_3P[2];
             SDL_RenderGeometryRaw(renderer, screenTexture[2], &vertexBuffer[startVert].pos.x, sizeof(RenderVertex),
                                   (SDL_Color *)&vertexBuffer[startVert].color, sizeof(RenderVertex), &vertexBuffer[startVert].tex.x,
                                   sizeof(RenderVertex), 6, NULL, 0, 0);
+            PrintLog(PRINT_NORMAL, "Passed third Render Geometry Raw at case 3 of screencount switch");            
             break;
 
         case 4:
@@ -182,21 +191,25 @@ void RenderDevice::FlipScreen()
             SDL_RenderGeometryRaw(renderer, screenTexture[0], &vertexBuffer[startVert].pos.x, sizeof(RenderVertex),
                                   (SDL_Color *)&vertexBuffer[startVert].color, sizeof(RenderVertex), &vertexBuffer[startVert].tex.x,
                                   sizeof(RenderVertex), 6, NULL, 0, 0);
+            PrintLog(PRINT_NORMAL, "Passed Render Geometry Raw at case 4 of screencount switch");            
 
             startVert = 36;
             SDL_RenderGeometryRaw(renderer, screenTexture[1], &vertexBuffer[startVert].pos.x, sizeof(RenderVertex),
                                   (SDL_Color *)&vertexBuffer[startVert].color, sizeof(RenderVertex), &vertexBuffer[startVert].tex.x,
                                   sizeof(RenderVertex), 6, NULL, 0, 0);
+            PrintLog(PRINT_NORMAL, "Passed second Render Geometry Raw at case 4 of screencount switch");            
 
             startVert = 42;
             SDL_RenderGeometryRaw(renderer, screenTexture[2], &vertexBuffer[startVert].pos.x, sizeof(RenderVertex),
                                   (SDL_Color *)&vertexBuffer[startVert].color, sizeof(RenderVertex), &vertexBuffer[startVert].tex.x,
                                   sizeof(RenderVertex), 6, NULL, 0, 0);
+            PrintLog(PRINT_NORMAL, "Passed third Render Geometry Raw at case 4 of screencount switch");            
 
             startVert = 48;
             SDL_RenderGeometryRaw(renderer, screenTexture[3], &vertexBuffer[startVert].pos.x, sizeof(RenderVertex),
                                   (SDL_Color *)&vertexBuffer[startVert].color, sizeof(RenderVertex), &vertexBuffer[startVert].tex.x,
                                   sizeof(RenderVertex), 6, NULL, 0, 0);
+            PrintLog(PRINT_NORMAL, "Passed fourth Render Geometry Raw at case 4 of screencount switch");            
             break;
 #endif
     }
@@ -227,6 +240,7 @@ void RenderDevice::FlipScreen()
             src.w = vertexBuffer[startVert + 2].tex.x * 1024 - src.x;
             src.h = vertexBuffer[startVert + 2].tex.y * 512 - src.y;
             SDL_RenderCopy(renderer, imageTexture, &src, &dst);
+            PrintLog(PRINT_NORMAL, "Passed Render Copy at case 0 of screencount switch");
             break;
 
         case 1:
@@ -234,6 +248,7 @@ void RenderDevice::FlipScreen()
             _SET_RECTS;
 
             SDL_RenderCopy(renderer, screenTexture[0], &src, &dst);
+            PrintLog(PRINT_NORMAL, "Passed Render Copy at case 1 of screencount switch");
             break;
 
         case 2:
@@ -245,6 +260,7 @@ void RenderDevice::FlipScreen()
             _SET_RECTS;
 
             SDL_RenderCopy(renderer, screenTexture[0], &src, &dst);
+            PrintLog(PRINT_NORMAL, "Passed Render Copy at case 2 of screencount switch");
 
 #if RETRO_REV02
             startVert = startVertex_2P[1];
@@ -254,6 +270,7 @@ void RenderDevice::FlipScreen()
             _SET_RECTS;
 
             SDL_RenderCopy(renderer, screenTexture[1], &src, &dst);
+            PrintLog(PRINT_NORMAL, "Passed second Render Copy at case 2 of screencount switch");
             break;
 
 #if RETRO_REV02
@@ -262,16 +279,19 @@ void RenderDevice::FlipScreen()
             _SET_RECTS;
 
             SDL_RenderCopy(renderer, screenTexture[0], &src, &dst);
+            PrintLog(PRINT_NORMAL, "Passed Render Copy at case 3 of screencount switch");
 
             startVert = startVertex_3P[1];
             _SET_RECTS;
 
             SDL_RenderCopy(renderer, screenTexture[1], &src, &dst);
+            PrintLog(PRINT_NORMAL, "Passed second Render Copy at case 3 of screencount switch");
 
             startVert = startVertex_3P[2];
             _SET_RECTS;
 
             SDL_RenderCopy(renderer, screenTexture[2], &src, &dst);
+            PrintLog(PRINT_NORMAL, "Passed third Render Copy at case 3 of screencount switch");
 
             break;
 
@@ -280,21 +300,25 @@ void RenderDevice::FlipScreen()
             _SET_RECTS;
 
             SDL_RenderCopy(renderer, screenTexture[0], &src, &dst);
+            PrintLog(PRINT_NORMAL, "Passed Render Copy at case 4 of screencount switch");
 
             startVert = 36;
             _SET_RECTS;
 
             SDL_RenderCopy(renderer, screenTexture[1], &src, &dst);
+            PrintLog(PRINT_NORMAL, "Passed second Render Copy at case 4 of screencount switch");
 
             startVert = 42;
             _SET_RECTS;
 
             SDL_RenderCopy(renderer, screenTexture[2], &src, &dst);
+            PrintLog(PRINT_NORMAL, "Passed third Render Copy at case 4 of screencount switch");
 
             startVert = 48;
             _SET_RECTS;
 
             SDL_RenderCopy(renderer, screenTexture[3], &src, &dst);
+            PrintLog(PRINT_NORMAL, "Passed fourth Render Copy at case 4 of screencount switch");
 
             break;
 #endif
@@ -302,10 +326,13 @@ void RenderDevice::FlipScreen()
 #endif
     if (dimAmount < 1.0f) {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF - (dimAmount * 0xFF));
+        PrintLog(PRINT_NORMAL, "Passed Set Render Draw Color");
         SDL_RenderFillRect(renderer, NULL);
+        PrintLog(PRINT_NORMAL, "Passed Render Fill Rect");        
     }
     // no change here
     SDL_RenderPresent(renderer);
+    PrintLog(PRINT_NORMAL, "Passed Render Present and end of Flip Screen function");
 }
 
 void RenderDevice::Release(bool32 isRefresh)
@@ -439,6 +466,7 @@ void RenderDevice::InitVertexBuffer()
 {
     RenderVertex vertBuffer[sizeof(rsdkVertexBuffer) / sizeof(RenderVertex)];
     memcpy(vertBuffer, rsdkVertexBuffer, sizeof(rsdkVertexBuffer));
+    PrintLog(PRINT_NORMAL, "Passed memcpy in InitVertexBuffer");
 
     // ignore the last 6 verts, they're scaled to the 1024x512 textures already!
     int32 vertCount = (RETRO_REV02 ? 60 : 24) - 6;
@@ -471,6 +499,7 @@ void RenderDevice::InitVertexBuffer()
     }
 
     memcpy(vertexBuffer, vertBuffer, sizeof(vertBuffer));
+    PrintLog(PRINT_NORMAL, "Passed second memcpy in InitVertexBuffer");
 }
 
 bool RenderDevice::InitGraphicsAPI()
@@ -503,7 +532,9 @@ bool RenderDevice::InitGraphicsAPI()
     }
 
     SDL_SetWindowSize(window, viewSize.x, viewSize.y);
+    PrintLog(PRINT_NORMAL, "Passed Set Window Size in InitGraphicsAPI");
     SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+    PrintLog(PRINT_NORMAL, "Passed Set Window Position in InitGraphicsAPI");
 
     int32 maxPixHeight = 0;
 #if !RETRO_USE_ORIGINAL_CODE
@@ -533,14 +564,18 @@ bool RenderDevice::InitGraphicsAPI()
 #endif
 
         memset(&screens[s].frameBuffer, 0, sizeof(screens[s].frameBuffer));
+        PrintLog(PRINT_NORMAL, "Passed Framebuffer memset in InitGraphicsAPI");
         SetScreenSize(s, screenWidth, screens[s].size.y);
+        PrintLog(PRINT_NORMAL, "Passed Set Screen Size in InitGraphicsAPI");
     }
 
     pixelSize.x = screens[0].size.x;
     pixelSize.y = screens[0].size.y;
 
     SDL_RenderSetLogicalSize(renderer, videoSettings.pixWidth, SCREEN_YSIZE);
+    PrintLog(PRINT_NORMAL, "Passed Render Set Logical Size in InitGraphicsAPI");
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    PrintLog(PRINT_NORMAL, "Passed Set Render Draw Blend Mode in InitGraphicsAPI");
 
 #if !RETRO_USE_ORIGINAL_CODE
     if (screenWidth <= 512 && maxPixHeight <= 256) {
@@ -555,8 +590,10 @@ bool RenderDevice::InitGraphicsAPI()
         textureSize.y = 512.0;
     }
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
+    PrintLog(PRINT_NORMAL, "Passed Set Hint nearest in InitGraphicsAPI");
     for (int32 s = 0; s < SCREEN_COUNT; ++s) {
         screenTexture[s] = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB565, SDL_TEXTUREACCESS_STREAMING, textureSize.x, textureSize.y);
+        PrintLog(PRINT_NORMAL, "Passed set hint nearest createtexture in InitGraphicsAPI");
 
         if (!screenTexture[s]) {
             PrintLog(PRINT_NORMAL, "ERROR: failed to create screen buffer!\nerror msg: %s", SDL_GetError());
@@ -564,10 +601,13 @@ bool RenderDevice::InitGraphicsAPI()
         }
     }
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+    PrintLog(PRINT_NORMAL, "Passed Set Hint linear in InitGraphicsAPI");
     imageTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, RETRO_VIDEO_TEXTURE_W, RETRO_VIDEO_TEXTURE_H);
+    PrintLog(PRINT_NORMAL, "Passed linear Create Texture in InitGraphicsAPI");
     if (!imageTexture)
         return false;
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
+    PrintLog(PRINT_NORMAL, "Passed second Set Hint nearest in InitGraphicsAPI");
 
     lastShaderID = -1;
     InitVertexBuffer();
@@ -648,36 +688,45 @@ bool RenderDevice::SetupRendering()
 
 void RenderDevice::GetDisplays()
 {
+    PrintLog(PRINT_NORMAL, "Start of Render Device Get Displays");
     int32 currentWindowDisplay = SDL_GetWindowDisplayIndex(window);
+    PrintLog(PRINT_NORMAL, "Passed Get Window Display Index in getdisplays");
 
     int32 dispCount = SDL_GetNumVideoDisplays();
+    PrintLog(PRINT_NORMAL, "Passed Get Num Video Displays in getdisplays");
 
     SDL_DisplayMode currentDisplay;
     SDL_GetCurrentDisplayMode(currentWindowDisplay, &currentDisplay);
+    PrintLog(PRINT_NORMAL, "Passed Get Current Display Mode in getdisplays");
 
     displayModeIndex = 0;
     for (int32 a = 0; a < dispCount; ++a) {
         SDL_DisplayMode displayMode;
 
         SDL_GetCurrentDisplayMode(currentWindowDisplay, &displayMode);
+        PrintLog(PRINT_NORMAL, "Passed Get Current Display Mode in getdisplays counts");
         displayWidth[a]  = displayMode.w;
         displayHeight[a] = displayMode.h;
 
         if (memcmp(&currentDisplay, &displayMode, sizeof(displayMode)) == 0) {
             displayModeIndex = a;
         }
+        PrintLog(PRINT_NORMAL, "Passed memcmp in GetDisplays");
     }
 
     displayCount = SDL_GetNumDisplayModes(currentWindowDisplay);
+    PrintLog(PRINT_NORMAL, "Passed Get Num Display Modes in getdisplays");
     if (displayInfo.displays)
         free(displayInfo.displays);
 
     displayInfo.displays          = (decltype(displayInfo.displays))malloc(sizeof(SDL_DisplayMode) * displayCount);
     int32 newDisplayCount         = 0;
     bool32 foundFullScreenDisplay = false;
+    PrintLog(PRINT_NORMAL, "Passed Displays Malloc in getdisplays");
 
     for (int32 d = displayCount - 1; d >= 0; --d) {
         SDL_GetDisplayMode(currentWindowDisplay, d, &displayInfo.displays[newDisplayCount].internal);
+        PrintLog(PRINT_NORMAL, "Passed Get Display Mode in getdisplays for loop");
 
         int32 refreshRate = displayInfo.displays[newDisplayCount].refresh_rate;
         if (refreshRate >= 59 && (refreshRate <= 60 || refreshRate >= 120) && displayInfo.displays[newDisplayCount].height >= (SCREEN_YSIZE * 2)) {
@@ -685,6 +734,7 @@ void RenderDevice::GetDisplays()
                 memcpy(&displayInfo.displays[newDisplayCount - 1], &displayInfo.displays[newDisplayCount], sizeof(displayInfo.displays[0]));
                 --newDisplayCount;
             }
+            PrintLog(PRINT_NORMAL, "Passed Refreshrate memcpy in getdisplays");
 
             if (videoSettings.fsWidth == displayInfo.displays[newDisplayCount].width
                 && videoSettings.fsHeight == displayInfo.displays[newDisplayCount].height)
