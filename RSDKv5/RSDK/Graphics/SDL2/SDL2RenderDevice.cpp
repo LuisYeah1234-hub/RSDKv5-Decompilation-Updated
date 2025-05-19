@@ -400,7 +400,7 @@ void RenderDevice::RefreshWindow()
         PrintLog(PRINT_NORMAL, "Passed GetWindowDisplayIndex");
         SDL_DisplayMode displayMode;
         SDL_GetCurrentDisplayMode(currentWindowDisplay, &displayMode);
-PrintLog(PRINT_NORMAL, "Passed get current display mode");
+        PrintLog(PRINT_NORMAL, "Passed get current display mode");
 
         if (videoSettings.windowed) {
             if (videoSettings.windowWidth >= displayMode.w || videoSettings.windowHeight >= displayMode.h) {
