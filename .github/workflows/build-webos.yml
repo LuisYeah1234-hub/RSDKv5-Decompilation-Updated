@@ -20,7 +20,7 @@ jobs:
       run: | 
         sudo apt update -y && sudo apt-get install build-essential cmake libglew-dev libglfw3-dev libtheora-dev portaudio19-dev libc6-dev-armel-cross -y && npm install -g @webos-tools/cli
         mkdir -p dependencies/webOS/SDL2
-        wget -qO - https://github.com/webosbrew/SDL-webOS/releases/download/release-2.30.0-webos.2/SDL2-2.30.0-webos.tar.gz | tar -C dependencies/webOS/SDL2 -zxvf -
+        wget -qO - https://github.com/webosbrew/SDL-webOS/releases/download/release-2.30.8-webos.3/SDL2-2.30.8-webos-abi.tar.gz | tar -C dependencies/webOS/SDL2 -zxvf -
 
     - name: Prepare Game Source
       run: |
