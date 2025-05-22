@@ -331,7 +331,7 @@ void RenderDevice::FlipScreen()
         PrintLog(PRINT_NORMAL, "Passed Render Fill Rect");        
     }
     // no change here
-    SDL_RenderPresent(renderer);
+    //SDL_RenderPresent(renderer);
     PrintLog(PRINT_NORMAL, "Passed Render Present and end of Flip Screen function");
 }
 
