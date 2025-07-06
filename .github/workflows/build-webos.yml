@@ -50,7 +50,7 @@ jobs:
       # Execute the build.
       run: |
         . /tmp/arm-webos-linux-gnueabi_sdk-buildroot/environment-setup
-        make PLATFORM=webOS CXX=arm-webos-linux-gnueabi-g++ CC=arm-webos-linux-gnueabi-gcc
+        make PLATFORM=webOS
         mkdir -p bin/webOS/SDL2/lib
         cp -t bin/webOS/SDL2/lib -vf $STAGING_DIR/usr/lib/libstdc++.so.6
         cp -t bin/webOS/SDL2/lib -vf dependencies/webOS/SDL2/lib/libSDL2-2.0.so.0
