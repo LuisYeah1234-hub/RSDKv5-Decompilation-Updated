@@ -24,6 +24,8 @@ jobs:
 
     - name: Prepare Game Source
       run: |
+        rm -rf Game
+        mkdir Game
         git clone https://github.com/RSDKModding/Sonic-Mania-Decompilation temp-decomp
         mv temp-decomp/SonicMania ./Game
         rm -rf temp-decomp
