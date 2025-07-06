@@ -371,7 +371,6 @@ void RSDK::LoadSettingsINI()
 
         for (int32 i = CONT_P1; i <= PLAYER_COUNT; ++i) {
             char buffer[0x30];
-
             sprintf_s(buffer, sizeof(buffer), "Keyboard Map %d:up", i);
             controller[i].keyUp.keyMap = iniparser_getint(ini, buffer, defaultKeyMaps[i][KEY_UP]);
 
@@ -538,7 +537,7 @@ void RSDK::LoadSettingsINI()
         sprintf_s(gameLogicName, sizeof(gameLogicName), "Game");
 #endif
 
-        for (int32 i = CONT_P1; i <= PLAYER_COUNT; ++i) {
+        for (int32 i = CONT_P1; i <= PLAYER_COUNT; ++i) {    
             controller[i].keyUp.keyMap     = defaultKeyMaps[i][KEY_UP];
             controller[i].keyDown.keyMap   = defaultKeyMaps[i][KEY_DOWN];
             controller[i].keyLeft.keyMap   = defaultKeyMaps[i][KEY_LEFT];

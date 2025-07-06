@@ -10,6 +10,14 @@ int32 RSDK::SKU::buttonDownCount     = 0;
 int32 RSDK::SKU::prevButtonDownCount = 0;
 #endif
 
+enum {
+    IR_KEY_RED = 406,
+    IR_KEY_GREEN = 407,
+    IR_KEY_YELLOW = 408,
+    IR_KEY_BLUE = 409,
+    IR_KEY_BACK = 420,
+};
+
 #if RETRO_RENDERDEVICE_SDL2
 int32 winAPIToSDLMappings(int32 mapping)
 {
@@ -239,6 +247,13 @@ int32 winAPIToSDLMappings(int32 mapping)
         case VK_NONAME: return SDL_SCANCODE_UNKNOWN;
         case VK_PA1: return SDL_SCANCODE_UNKNOWN;
         case VK_OEM_CLEAR: return SDL_SCANCODE_UNKNOWN;
+        #ifdef __webos__
+        case IR_KEY_RED: return SDL_SCANCODE_W;
+        case IR_KEY_GREEN: return SDL_SCANCODE_TAB;
+        case IR_KEY_YELLOW: return SDL_SCANCODE_A;
+        case IR_KEY_BLUE: return SDL_SCANCODE_E;
+        case IR_KEY_BACK: return SDL_SCANCODE_S;
+        #endif
     }
 }
 

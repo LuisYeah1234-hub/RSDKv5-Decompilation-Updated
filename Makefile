@@ -28,6 +28,8 @@ RSDK_LIBS    =
 RSDK_PREBUILD =
 RSDK_PRELINK  =
 
+RSDK_POSTLINK =
+
 STATICGAME 	?= 0
 
 ifeq ($(RSDK_ONLY),0)
@@ -41,6 +43,8 @@ GAME_LIBS    =
 
 GAME_PREBUILD =
 GAME_PRELINK  =
+
+GAME_POSTLINK =
 endif
 
 DEFINES      ?=
@@ -234,18 +238,21 @@ $(RSDK_PATH): $(RSDK_PRELINK) $(RSDK_OBJECTS) $(GAME_OBJECTS)
 	@echo linking...
 	$(CXX) $(CXXFLAGS_ALL) $(LDFLAGS_ALL) $(RSDK_LDFLAGS) $(RSDK_OBJECTS) $(GAME_OBJECTS) $(RSDK_LIBS) $(GAME_LIBS) -o $@ 
 	$(STRIP) $@
+	@[ -n "$(RSDK_POSTLINK)" ] && $(MAKE) --no-print-directory $(RSDK_POSTLINK) || true
 	@echo done
 else # STATICGAME
 $(RSDK_PATH): $(RSDK_PRELINK) $(RSDK_OBJECTS)
 	@echo linking RSDK...
 	$(CXX) $(CXXFLAGS_ALL) $(LDFLAGS_ALL) $(RSDK_LDFLAGS) $(RSDK_OBJECTS) $(RSDK_LIBS) -o $@ 
 	$(STRIP) $@
+	@[ -n "$(RSDK_POSTLINK)" ] && $(MAKE) --no-print-directory $(RSDK_POSTLINK) || true
 	@echo done linking RSDK
 ifeq ($(RSDK_ONLY),0)
 $(GAME_PATH): $(GAME_PRELINK) $(GAME_OBJECTS)
 	@echo linking game...
 	$(CXX) $(CXXFLAGS_ALL) $(LDFLAGS_ALL) $(GAME_LDFLAGS) $(GAME_OBJECTS) $(GAME_LIBS) -o $@ 
 	$(STRIP) $@
+	@[ -n "$(GAME_POSTLINK)" ] && $(MAKE) --no-print-directory $(GAME_POSTLINK) || true
 	@echo done linking game
 endif # RSDK_ONLY
 endif # STATICGAME

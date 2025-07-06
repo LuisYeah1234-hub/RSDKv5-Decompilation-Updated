@@ -1159,7 +1159,7 @@ void RSDK::SKU::InitUserDirectory()
 
     // done by javaside
 
-#elif RETRO_PLATFORM == RETRO_LINUX
+#elif RETRO_PLATFORM == RETRO_LINUX || RETRO_PLATFORM == RETRO_WEBOS
 
     SKU::SetUserFileCallbacks("./", NULL, NULL);
 

@@ -4,7 +4,7 @@ using namespace RSDK;
 
 FileInfo VideoManager::file;
 
-#ifndef __webos__
+#if RETRO_PLATFORM != RETRO_WEBOS
 ogg_sync_state VideoManager::oy;
 ogg_page VideoManager::og;
 ogg_packet VideoManager::op;
@@ -22,7 +22,7 @@ bool32 VideoManager::initializing    = false;
 
 bool32 RSDK::LoadVideo(const char *filename, double startDelay, bool32 (*skipCallback)())
 {
-#ifdef __webos__
+#if RETRO_PLATFORM == RETRO_WEBOS
         return false;
 #else
     if (ENGINE_VERSION == 5 && sceneInfo.state == ENGINESTATE_VIDEOPLAYBACK)
@@ -201,7 +201,7 @@ bool32 RSDK::LoadVideo(const char *filename, double startDelay, bool32 (*skipCal
 
 void RSDK::ProcessVideo()
 {
-#ifdef __webos__
+#if RETRO_PLATFORM == RETRO_WEBOS
     return;
 #else
     bool32 finished = false;
@@ -292,5 +292,5 @@ void RSDK::ProcessVideo()
             RSDK::Legacy::gameMode = engine.storedState;
 #endif
     }
-#endif // __webos__
+#endif // RETRO_PLATFORM == RETRO_WEBOS
 }
