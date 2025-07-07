@@ -35,7 +35,7 @@ jobs:
       with:
         repository: "openlgtv/buildroot-nc4"
         latest: true
-        fileName: "linux-arm-webos-sdk.tar.gz"
+        fileName: "linux-intel-webos-sdk.tar.gz"
         out-file-path: "/tmp"
 
     - name: Extract webOS NDK
