@@ -727,7 +727,8 @@ void RenderDevice::ProcessEvent(SDL_Event event)
                 }
 
                 case SDL_WINDOWEVENT_CLOSE: isRunning = false; break;
-
+                
+#if RETRO_PLATFORM != RETRO_WEBOS || RETRO_PLATFORM != RETRO_LINUX
                 case SDL_WINDOWEVENT_FOCUS_GAINED:
 #if RETRO_REV02
                     SKU::userCore->focusState = 0;
@@ -739,6 +740,12 @@ void RenderDevice::ProcessEvent(SDL_Event event)
                     SKU::userCore->focusState = 1;
 #endif
                     break;
+#endif
+#if RETRO_PLATFORM == RETRO_WEBOS || RETRO_PLATFORM == RETRO_LINUX
+                case SDL_WINDOWEVENT_MINIMIZED:
+            	    SKU::userCore->focusState = 1;
+            	    break;
+#endif
             }
             break;
 
