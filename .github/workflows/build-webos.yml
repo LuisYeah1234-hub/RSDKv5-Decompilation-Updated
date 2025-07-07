@@ -53,16 +53,17 @@ jobs:
         mkdir -p bin/webOS/SDL2/lib
         cp -t bin/webOS/SDL2/lib -vf $STAGING_DIR/usr/lib/libstdc++.so.6
         cp -t bin/webOS/SDL2/lib -vf dependencies/webOS/SDL2/lib/libSDL2-2.0.so.0
-        
-    - name: Bundle an IPK
-      shell: bash
-      run: |
-        OUTPUT_FILE=bin/webOS/SDL2/gamecontrollerdb.txt sh webos/gen_gamecontrollerdb.sh
-        cp -u webos/icon.png bin/webOS/SDL2
-        cp -u webos/splash.png bin/webOS/SDL2
-        cp -u webos/appinfo.json bin/webOS/SDL2
-        ares-package bin/webOS/SDL2
-        PATH=/bin:/usr/bin python3 webos/gen_manifest.py -a bin/webOS/SDL2/appinfo.json -p *.ipk -o webosbrew.manifest.json
+
+    # Deprecated but leaving commented here for other reasons.   
+    #- name: Bundle an IPK
+    #  shell: bash
+    #  run: |
+    #    OUTPUT_FILE=bin/webOS/SDL2/gamecontrollerdb.txt sh webos/gen_gamecontrollerdb.sh
+    #    cp -u webos/icon.png bin/webOS/SDL2
+    #    cp -u webos/splash.png bin/webOS/SDL2
+    #    cp -u webos/appinfo.json bin/webOS/SDL2
+    #    ares-package bin/webOS/SDL2
+    #    PATH=/bin:/usr/bin python3 webos/gen_manifest.py -a bin/webOS/SDL2/appinfo.json -p *.ipk -o webosbrew.manifest.json
 
     - name: Upload Artifacts (webOS)
       id: upload_artifacts_webos
