@@ -125,7 +125,7 @@ int32 RSDK::RunRetroEngine(int32 argc, char *argv[])
                 continue;
 
                 // Focus Checks
-#if !RETRO_USE_ORIGINAL_CODE || RETRO_PLATFORM != RETRO_WEBOS || RETRO_PLATFORM != RETRO_LINUX
+#if !RETRO_USE_ORIGINAL_CODE || RETRO_PLATFORM != RETRO_WEBOS
             if (customSettings.disableFocusPause)
                 engine.focusState = 0;
             else if (SKU::userCore->CheckFocusLost()) {
