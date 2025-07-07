@@ -35,21 +35,21 @@ jobs:
       with:
         repository: "openlgtv/buildroot-nc4"
         latest: true
-        fileName: "arm-webos-linux-gnueabi_sdk-buildroot.tar.gz"
+        fileName: "linux-arm-webos-sdk.tar.gz"
         out-file-path: "/tmp"
 
     - name: Extract webOS NDK
       shell: bash
       working-directory: /tmp
       run: |
-        tar xzf arm-webos-linux-gnueabi_sdk-buildroot.tar.gz
-        ./arm-webos-linux-gnueabi_sdk-buildroot/relocate-sdk.sh
+        tar xzf linux-arm-webos-sdk.tar.gz
+        ./linux-arm-webos-sdk/relocate-sdk.sh
         
     - name: Build
       shell: bash
       # Execute the build.
       run: |
-        . /tmp/arm-webos-linux-gnueabi_sdk-buildroot/environment-setup
+        . /tmp/linux-arm-webos-sdk/environment-setup
         make PLATFORM=webOS
         mkdir -p bin/webOS/SDL2/lib
         cp -t bin/webOS/SDL2/lib -vf $STAGING_DIR/usr/lib/libstdc++.so.6
