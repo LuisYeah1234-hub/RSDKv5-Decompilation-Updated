@@ -42,7 +42,7 @@ jobs:
       shell: bash
       working-directory: /tmp
       run: |
-        tar xzf linux-arm-webos-sdk.tar.gz
+        tar xzf linux-intel-webos-sdk.tar.gz
         ./arm-webos-linux-gnueabi_sdk-buildroot/relocate-sdk.sh
         
     - name: Build
