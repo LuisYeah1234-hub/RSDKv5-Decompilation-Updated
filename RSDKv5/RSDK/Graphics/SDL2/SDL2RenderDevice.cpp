@@ -997,10 +997,12 @@ void RenderDevice::ProcessEvent(SDL_Event event)
                         engine.showPaletteOverlay ^= 1;
                     break;
 #endif
+#if RETRO_PLATFORM != RETRO_WEBOS
                 case SDL_SCANCODE_BACKSPACE:
                     if (engine.devMenu)
                         engine.gameSpeed = engine.fastForwardSpeed;
                     break;
+#endif
 
                 case SDL_SCANCODE_F11:
                 case SDL_SCANCODE_INSERT:
