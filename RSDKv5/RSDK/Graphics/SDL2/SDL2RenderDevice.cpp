@@ -58,7 +58,7 @@ bool RenderDevice::Init()
         return false;
     }
 
-#if RETRO_PLATFORM == RETRO_WEBOS
+#if RETRO_PLATFORM != RETRO_WEBOS
     SDL_SetHint(SDL_HINT_WEBOS_ACCESS_POLICY_KEYS_BACK, "true");
 #endif
 
