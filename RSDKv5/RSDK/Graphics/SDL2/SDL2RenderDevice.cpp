@@ -46,7 +46,7 @@ bool RenderDevice::Init()
 #endif
 
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
-#if RETRO_PLATFORM == RETRO_WEBOS
+#if RETRO_PLATFORM != RETRO_WEBOS
     SDL_SetHint(SDL_HINT_RENDER_VSYNC, videoSettings.vsync ? "1" : "0"); // By default off on webOS as on webOS It causes SDL_RenderPresent to hang.
 #endif
 
@@ -58,7 +58,7 @@ bool RenderDevice::Init()
         return false;
     }
 
-#if RETRO_PLATFORM != RETRO_WEBOS
+#if RETRO_PLATFORM == RETRO_WEBOS
     SDL_SetHint(SDL_HINT_WEBOS_ACCESS_POLICY_KEYS_BACK, "true");
 #endif
 
