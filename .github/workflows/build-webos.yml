@@ -43,6 +43,23 @@ jobs:
       run: |
         tar xzf arm-webos-linux-gnueabi_sdk-buildroot-x86_64.tar.gz
         ./arm-webos-linux-gnueabi_sdk-buildroot/relocate-sdk.sh
+
+    - name: Compile libtheora and libogg for webOS
+      shell: bash
+      run: |
+        git clone https://github.com/xiph/ogg.git "dependencies/webOS/libogg"
+        git clone https://github.com/xiph/theora.git "dependencies/webOS/libtheora"
+        cd dependencies/webOS/libogg
+        ./autogen.sh
+        ./configure --host=arm-webos-linux-gnueabi --prefix=$(pwd)/build --disable-shared --enable-static
+        make
+        make install
+        cd ../libtheora
+        ./autogen.sh
+        ./configure --host=arm-webos-linux-gnueabi --prefix=$(pwd)/build --disable-shared --enable-static --with-ogg=../libogg/build --disable-examples --disable-encoder
+        make
+        make install
+
         
     - name: Build
       shell: bash
