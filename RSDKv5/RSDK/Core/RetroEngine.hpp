@@ -551,9 +551,7 @@ extern "C" {
 #endif
 #endif
 
-#if RETRO_PLATFORM != RETRO_WEBOS
 #include <theora/theoradec.h>
-#endif
 
 // ============================
 // ENGINE INCLUDES
