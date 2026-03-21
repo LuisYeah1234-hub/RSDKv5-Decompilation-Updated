@@ -56,7 +56,7 @@ jobs:
         make install
         cd ../libtheora
         ./autogen.sh
-        ./configure --host=arm-webos-linux-gnueabi --prefix=$(pwd)/build --disable-shared --enable-static --with-ogg=../libogg/build --disable-examples --disable-encoder
+        ./configure --host=arm-webos-linux-gnueabi --prefix=$(pwd)/build --disable-shared --enable-static --with-ogg=../libogg/build --disable-examples --disable-encoder --disable-asm
         make
         make install
 
