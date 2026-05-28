@@ -22,13 +22,6 @@ jobs:
         mkdir -p dependencies/webOS/SDL2
         wget -qO - https://github.com/webosbrew/SDL-webOS/releases/download/release-2.30.8-webos.3/SDL2-2.30.8-webos-abi.tar.gz | tar -C dependencies/webOS/SDL2 -zxvf -
 
-    - name: Prepare Game Source
-      run: |
-        rm -rf Game
-        git clone https://github.com/RSDKModding/Sonic-Mania-Decompilation temp-decomp
-        mv temp-decomp/SonicMania ./Game
-        rm -rf temp-decomp
-      
     - name: Download webOS NDK
       uses: robinraju/release-downloader@v1.9
       with:
