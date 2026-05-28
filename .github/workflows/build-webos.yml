@@ -36,10 +36,9 @@ jobs:
       run: |
         tar xzf arm-webos-linux-gnueabi_sdk-buildroot-x86_64.tar.gz
         ./arm-webos-linux-gnueabi_sdk-buildroot/relocate-sdk.sh
-        
-    - name: Build
+
+    - name: Prepare Build
       shell: bash
-      # Execute the build.
       run: |
         git clone https://github.com/xiph/ogg.git "dependencies/webOS/libogg"
         git clone -b theora-1.1 --single-branch https://github.com/xiph/theora.git "dependencies/android/libtheora"
@@ -47,7 +46,15 @@ jobs:
         cd SonicMania
         rm -rf dependencies/RSDKv5
         ln -sf ../.. dependencies/RSDKv5
+        wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb
+        sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2_amd64.deb
+        
+    - name: Build
+      shell: bash
+      # Execute the build.
+      run: |
         . /tmp/arm-webos-linux-gnueabi_sdk-buildroot/environment-setup
+        cd SonicMania
         cmake -B build -DPLATFORM=webOS -DRETRO_MOD_LOADER=ON -DWITH_RSDK=ON -DCMAKE_BUILD_TYPE=Release
         cd build
         make
