@@ -45,6 +45,7 @@ jobs:
         git clone -b theora-1.1 --single-branch https://github.com/xiph/theora.git "dependencies/android/libtheora"
         git clone https://github.com/RSDKModding/Sonic-Mania-Decompilation SonicMania
         cd SonicMania
+        rm -rf dependencies/RSDKv5
         ln -sf ../.. dependencies/RSDKv5
         . /tmp/arm-webos-linux-gnueabi_sdk-buildroot/environment-setup
         cmake -B build -DPLATFORM=webOS -DRETRO_MOD_LOADER=ON -DWITH_RSDK=ON -DCMAKE_BUILD_TYPE=Release
