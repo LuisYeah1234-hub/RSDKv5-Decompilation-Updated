@@ -348,6 +348,7 @@ void RenderDevice::Release(bool32 isRefresh)
 
 void RenderDevice::RefreshWindow()
 {
+#if RETRO_PLATFORM != RETRO_WEBOS // Refreshing is not supported in webOS. wayland gets upset
     videoSettings.windowState = WINDOWSTATE_UNINITIALIZED;
 
     Release(true);
@@ -370,9 +371,6 @@ void RenderDevice::RefreshWindow()
         SDL_GetCurrentDisplayMode(currentWindowDisplay, &displayMode);
 
         if (videoSettings.windowed) {
-#if RETRO_PLATFORM == RETRO_WEBOS
-            videoSettings.windowed = false; // Hardlocked to fullscreen for webOS as windowed will break everything
-#else
             if (videoSettings.windowWidth >= displayMode.w || videoSettings.windowHeight >= displayMode.h) {
                 videoSettings.windowWidth  = (displayMode.h / 480 * videoSettings.pixWidth);
                 videoSettings.windowHeight = displayMode.h / 480 * videoSettings.pixHeight;
@@ -382,16 +380,11 @@ void RenderDevice::RefreshWindow()
             winRect.h = videoSettings.windowHeight;
             SDL_SetWindowFullscreen(window, SDL_FALSE);
             SDL_ShowCursor(SDL_FALSE);
-#endif
         }
         else {
             winRect.w = displayMode.w;
             winRect.h = displayMode.h;
-#if RETRO_PLATFORM == RETRO_WEBOS
- 	    SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
-#else
             SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
-#endif
             SDL_ShowCursor(SDL_TRUE);
         }
 
@@ -405,6 +398,7 @@ void RenderDevice::RefreshWindow()
         return;
 
     videoSettings.windowState = WINDOWSTATE_ACTIVE;
+#endif
 }
 
 void RenderDevice::InitFPSCap()
@@ -468,6 +462,7 @@ bool RenderDevice::InitGraphicsAPI()
     viewSize.x = 0;
     viewSize.y = 0;
 
+#if RETRO_PLATFORM != RETRO_WEBOS
     if (videoSettings.windowed || !videoSettings.exclusiveFS) {
         if (videoSettings.windowed) {
             viewSize.x = videoSettings.windowWidth;
@@ -489,6 +484,10 @@ bool RenderDevice::InitGraphicsAPI()
         viewSize.x = bufferWidth;
         viewSize.y = bufferHeight;
     }
+#elif RETRO_PLATFORM == RETRO_WEBOS
+        viewSize.x = videoSettings.windowWidth;
+        viewSize.y = videoSettings.windowHeight;
+#endif
 
     SDL_SetWindowSize(window, viewSize.x, viewSize.y);
     SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
