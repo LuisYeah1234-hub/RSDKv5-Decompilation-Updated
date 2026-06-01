@@ -76,5 +76,5 @@ jobs:
       with:
         name: webOS-artifacts
         path: |
-          *.ipk
-          webosbrew.manifest.json
+          **/*.ipk
+          **/webosbrew.manifest.json
