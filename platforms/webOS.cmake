@@ -62,7 +62,7 @@ add_custom_command(TARGET RetroEngine POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/webos/appinfoultimate.json $<TARGET_FILE_DIR:RetroEngine>/appinfo.json
     COMMAND ${CMAKE_COMMAND} -E copy_if_different ${STAGING_DIR}/usr/lib/libstdc++.so.6 $<TARGET_FILE_DIR:RetroEngine>/lib/libstdc++.so.6
     COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/webOS/SDL2/lib/libSDL2-2.0.so.0 $<TARGET_FILE_DIR:RetroEngine>/lib/libSDL2-2.0.so.0
-    COMMAND ares-package $<TARGET_FILE_DIR:RetroEngine>
-    COMMAND PATH=/bin:/usr/bin python3 ${CMAKE_CURRENT_SOURCE_DIR}/webos/gen_manifest.py -a $<TARGET_FILE_DIR:RetroEngine>/appinfo.json -p *.ipk -o webosbrew.manifest.json
+    COMMAND ares-package $<TARGET_FILE_DIR:RetroEngine> -o ${CMAKE_BINARY_DIR}
+    COMMAND PATH=/bin:/usr/bin python3 ${CMAKE_CURRENT_SOURCE_DIR}/webos/gen_manifest.py -a $<TARGET_FILE_DIR:RetroEngine>/appinfo.json -p ${CMAKE_BINARY_DIR}/*.ipk -o ${CMAKE_BINARY_DIR}/webosbrew.manifest.json
 )
 set(PLATFORM webOS)
