@@ -14,6 +14,10 @@ unsigned long long RenderDevice::prevTicks  = 0;
 
 RenderVertex RenderDevice::vertexBuffer[!RETRO_REV02 ? 24 : 60];
 
+#if RETRO_PLATFORM == RETRO_WEBOS && RETRO_REV02
+bool RenderDevice::AllowDisableFocusPause = false;
+#endif
+
 uint8 RenderDevice::lastTextureFormat = -1;
 
 #define NORMALIZE(val, minVal, maxVal) ((float)(val) - (float)(minVal)) / ((float)(maxVal) - (float)(minVal))
@@ -59,6 +63,9 @@ bool RenderDevice::Init()
     }
 
 #if RETRO_PLATFORM == RETRO_WEBOS
+#if RETRO_REV02
+    AllowDisableFocusPause = customSettings.disableFocusPause;
+#endif
     SDL_SetHint(SDL_HINT_WEBOS_ACCESS_POLICY_KEYS_BACK, "true");
 #endif
 
@@ -710,7 +717,7 @@ void RenderDevice::GetWindowSize(int32 *width, int32 *height)
 
 void RenderDevice::ProcessEvent(SDL_Event event)
 {
-    switch (event.type) {
+    switch (event.type) { 
         case SDL_WINDOWEVENT:
             switch (event.window.event) {
                 case SDL_WINDOWEVENT_MAXIMIZED: {
@@ -729,19 +736,22 @@ void RenderDevice::ProcessEvent(SDL_Event event)
                 
                 case SDL_WINDOWEVENT_FOCUS_GAINED:
 #if RETRO_REV02
+#if RETRO_PLATFORM == RETRO_WEBOS
+                    AllowDisableFocusPause = customSettings.disableFocusPause;
+#endif
                     SKU::userCore->focusState = 0;
 #endif
                     break;
 		    
-#if RETRO_PLATFORM != RETRO_WEBOS
                 case SDL_WINDOWEVENT_FOCUS_LOST:
 #if RETRO_REV02
                     SKU::userCore->focusState = 1;
 #endif
                     break;
-#endif
-#if RETRO_PLATFORM == RETRO_WEBOS
+
+#if RETRO_REV02 && RETRO_PLATFORM == RETRO_WEBOS
                 case SDL_WINDOWEVENT_MINIMIZED:
+                    AllowDisableFocusPause = false;
             	    SKU::userCore->focusState = 1;
             	    break;
 #endif

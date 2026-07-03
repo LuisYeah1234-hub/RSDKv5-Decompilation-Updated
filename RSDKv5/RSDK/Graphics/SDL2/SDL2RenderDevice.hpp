@@ -49,6 +49,10 @@ public:
         SDL_GetMouseState(&pos->x, &pos->y);
         return true;
     };
+    
+#if RETRO_PLATFORM == RETRO_WEBOS && RETRO_REV02 && !RETRO_USE_ORIGINAL_CODE
+    static bool AllowDisableFocusPause;
+#endif
 
     static inline void SetWindowTitle() { SDL_SetWindowTitle(window, gameVerInfo.gameTitle); };
 
