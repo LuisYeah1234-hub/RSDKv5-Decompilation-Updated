@@ -46,6 +46,48 @@ set_target_properties(RetroEngine PROPERTIES
     INSTALL_RPATH "\$ORIGIN/lib"
 )
 
+option(RETRO_FORCE_MANIA_PATH "Force Sonic Mania (REV1/2) appinfo path" OFF)
+
+set(ICON_SRC "${CMAKE_CURRENT_SOURCE_DIR}/webos/iconultimate.png")
+set(ICON_COLOR "#231F20")
+set(TITLE "RSDKv5 Ultimate")
+set(APP_DESC "RSDKv5U (RSDKv5 Ultimate) port for webOS")
+if (RETRO_FORCE_MANIA_PATH OR RETRO_REVISION EQUAL 2 OR RETRO_REVISION EQUAL 1)
+    set(ICON_SRC "${CMAKE_CURRENT_SOURCE_DIR}/webos/icon.png")
+    set(ICON_COLOR "#F8CB00")
+    set(TITLE "Sonic Mania")
+    set(APP_DESC "Sonic Mania port for webOS")
+endif()
+
+set(SPLASH_SRC "${CMAKE_CURRENT_SOURCE_DIR}/webos/splashultimate.png")
+if(RETRO_FORCE_MANIA_PATH OR NOT RETRO_REVISION EQUAL 3)
+    if(RSDK_AUTOBUILD OR RETRO_REVISION EQUAL 1)
+        set(SPLASH_SRC "${CMAKE_CURRENT_SOURCE_DIR}/webos/splash.png")
+    endif()
+    if(RETRO_FORCE_MANIA_PATH OR RETRO_REVISION EQUAL 2)
+        set(SPLASH_SRC "${CMAKE_CURRENT_SOURCE_DIR}/webos/splashplus.png")
+    endif()
+endif()
+
+set(APPINFO [=[
+{
+    "id": "com.github.rubberduckycooly.sonic-mania-decompilation",
+    "version": "1.0.0",
+    "vendor": "LuisYeah1234-hub",
+    "type": "native",
+    "main": "@RETRO_NAME@",
+    "iconColor": "@ICON_COLOR@",
+    "title": "@TITLE@",
+    "icon": "icon.png",
+    "splashBackground": "splash.png",
+    "appDescription": "@APP_DESC@"
+}
+]=])
+
+string(CONFIGURE "${APPINFO}" APPINFO_JSON @ONLY)
+
+file(WRITE "${CMAKE_BINARY_DIR}/bin/appinfo.json" "${APPINFO_JSON}")
+
 if(WITH_RSDK AND NOT GAME_STATIC AND TARGET ${GAME_NAME})
     add_custom_command(TARGET RetroEngine POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
@@ -57,9 +99,8 @@ endif()
 
 add_custom_command(TARGET RetroEngine POST_BUILD
     COMMAND OUTPUT_FILE=$<TARGET_FILE_DIR:RetroEngine>/gamecontrollerdb.txt sh ${CMAKE_CURRENT_SOURCE_DIR}/webos/gen_gamecontrollerdb.sh
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/webos/icon.png $<TARGET_FILE_DIR:RetroEngine>
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/webos/splashplus.png $<TARGET_FILE_DIR:RetroEngine>/splash.png
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/webos/appinfoultimate.json $<TARGET_FILE_DIR:RetroEngine>/appinfo.json
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${ICON_SRC} $<TARGET_FILE_DIR:RetroEngine>/icon.png
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${SPLASH_SRC} $<TARGET_FILE_DIR:RetroEngine>/splash.png
     COMMAND ${CMAKE_COMMAND} -E copy_if_different ${STAGING_DIR}/usr/lib/libstdc++.so.6 $<TARGET_FILE_DIR:RetroEngine>/lib/libstdc++.so.6
     COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/webOS/SDL2/lib/libSDL2-2.0.so.0 $<TARGET_FILE_DIR:RetroEngine>/lib/libSDL2-2.0.so.0
     COMMAND ares-package $<TARGET_FILE_DIR:RetroEngine> -o ${CMAKE_BINARY_DIR}
